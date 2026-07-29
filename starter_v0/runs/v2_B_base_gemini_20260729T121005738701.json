@@ -1,0 +1,697 @@
+{
+  "run_id": "v2_B_base_gemini_20260729T121005738701",
+  "version": "v2",
+  "artifact_version": "v2+ped5bef0f7bee+ta2235b98b7db",
+  "prompt_hash": "ed5bef0f7beece71fd294ca9069c9070ff3b92febbbe29e48592db54c8f97ec2",
+  "tools_hash": "a2235b98b7dbe58400adab72e412f73c3dd95ec9ffd3d5b448e31d882a42a81b",
+  "phase": "B",
+  "suite": "base",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "system_prompt": "D:\\K3-D304-Day04-Lab-A2\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "D:\\K3-D304-Day04-Lab-A2\\starter_v0\\artifacts\\tools.yaml",
+  "eval_cases": "data\\eval_group.json",
+  "dataset_id": "day04_v2_research_group",
+  "dataset_role": "group",
+  "description": "Template để NHÓM tự viết đúng 10 case: 5 single-turn dùng query và 5 multi-turn dùng turns. Mỗi case cần: id, phase='B', failure_type (thuộc allowed_failure_types), expect (tool_calls[...] hoặc no_tool=true), và metadata.what_it_tests. File để trống có chủ đích vì mỗi nhóm phải tự thiết kế các case này.",
+  "generated_at": "2026-07-29T12:10:05",
+  "summary": {
+    "total_cases": 10,
+    "measured_cases": 10,
+    "provider_error_cases": 0,
+    "passed_cases": 7,
+    "case_accuracy": 0.7,
+    "tool_routing_accuracy": 0.9,
+    "argument_accuracy": 0.7,
+    "multiturn_accuracy": 0.6,
+    "failure_counts": {
+      "wrong_tool": 1,
+      "missing_info": 2
+    },
+    "observed_mismatch_counts": {
+      "wrong_arg_value": 2,
+      "missing_tool_call": 1
+    }
+  },
+  "results": [
+    {
+      "id": "G01_single_search_translate_chain",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Test câu hỏi dịch thuật câu tiếng Anh -> Routing chính xác sang tool translate_text với target_lang='vi'."
+      },
+      "input": "Dịch bài báo khoa học này sang tiếng Việt giúp mình: 'Deep learning architectures have revolutionized computer vision.'",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "translate_text",
+            "args": {
+              "text": "Deep learning architectures have revolutionized computer vision.",
+              "target_lang": "vi"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "translate_text",
+            "args": {
+              "text": "Deep learning architectures have revolutionized computer vision."
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "target_lang: expected 'vi', got None"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "translate_text",
+          "args": {
+            "text": "Deep learning architectures have revolutionized computer vision."
+          },
+          "result": {
+            "translated_text": "Kiến trúc học sâu đã cách mạng hóa thị giác máy tính.",
+            "error": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "G02_single_keywords_from_text",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Test trích xuất từ khóa -> Routing sang extract_keywords và bắt buộc trích xuất đúng tham số max_keywords=3."
+      },
+      "input": "Trích xuất tối đa 3 từ khóa quan trọng nhất từ đoạn văn bản: Transformer models utilize self-attention mechanisms for natural language processing.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "extract_keywords",
+            "args": {
+              "text": "Transformer models utilize self-attention mechanisms for natural language processing.",
+              "max_keywords": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "extract_keywords",
+            "args": {
+              "text": "Transformer models utilize self-attention mechanisms for natural language processing.",
+              "max_keywords": 3
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "extract_keywords",
+          "args": {
+            "text": "Transformer models utilize self-attention mechanisms for natural language processing.",
+            "max_keywords": 3
+          },
+          "result": {
+            "keywords": [
+              "transformer",
+              "models",
+              "utilize"
+            ],
+            "error": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "G03_single_parallel_news_and_social",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Test yêu cầu tìm kiếm đa nguồn -> Bắt buộc phát ra song song 2 tool calls lookup và social_search."
+      },
+      "input": "Tìm tin tức báo chí hôm nay về Gemini 1.5 và tìm luôn các thảo luận trên Twitter về Gemini 1.5.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "Gemini 1.5",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          },
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Gemini 1.5"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "timeframe": "day",
+              "query": "Gemini 1.5"
+            }
+          },
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Gemini 1.5",
+              "search_type": "Latest"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "topic": "news",
+            "timeframe": "day",
+            "query": "Gemini 1.5"
+          },
+          "result": {
+            "tool": "web_search",
+            "error": "RuntimeError",
+            "message": "Missing TAVILY_API_KEY env var"
+          }
+        },
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "Gemini 1.5",
+            "search_type": "Latest"
+          },
+          "result": {
+            "tool": "search_tweets",
+            "error": "RuntimeError",
+            "message": "Missing RAPIDAPI_KEY env var"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G04_single_save_note_file",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Test lưu ghi chú nghiên cứu -> Routing sang save_note với đúng note_content và filename='notes.md'."
+      },
+      "input": "Lưu lại dòng ghi chú 'Hệ thống Agent cần tối ưu hóa latency khi gọi API' vào file markdown notes.md giúp mình.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "save_note",
+            "args": {
+              "note_content": "Hệ thống Agent cần tối ưu hóa latency khi gọi API",
+              "filename": "notes.md"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "save_note",
+            "args": {
+              "note_content": "Hệ thống Agent cần tối ưu hóa latency khi gọi API",
+              "filename": "notes.md"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "save_note",
+          "args": {
+            "note_content": "Hệ thống Agent cần tối ưu hóa latency khi gọi API",
+            "filename": "notes.md"
+          },
+          "result": {
+            "status": "Successfully appended to notes.md",
+            "error": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "G05_single_confirm_send_telegram",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Test hành động nhạy cảm xuất bản nội dung -> Bắt buộc gọi clarify với response_type=yes_no để xin xác nhận."
+      },
+      "input": "Đăng ngay bản tin tóm tắt này lên channel Telegram của công ty giúp tôi.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "response_type": "yes_no"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "",
+            "response_type": "yes_no",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G06_multi_clarify_handle_then_timeline",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: Lượt 1 thiếu handle -> Assistant hỏi lại -> Lượt 2 bổ sung handle và giữ nguyên limit=5 -> Gọi timeline."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Xem cho mình 5 bài đăng gần nhất của Tim Cook."
+        },
+        {
+          "role": "assistant",
+          "content": "Vui lòng cho biết Twitter handle của Tim Cook."
+        },
+        {
+          "role": "user",
+          "content": "Handle là tim_cook nha."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "tim_cook",
+              "limit": 5
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "tim_cook"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "missing_info",
+        "failures": [
+          "limit: expected 5, got None"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "tim_cook"
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "error": "RuntimeError",
+            "message": "Missing RAPIDAPI_KEY env var"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G07_multi_carryover_topic_search",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: Kế thừa dạng tra cứu tin tức web nhưng cập nhật query='chip AI Nvidia' và timeframe='week'."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm kiếm tin tức thời sự trên web về công nghệ bán dẫn hôm nay."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã tìm thấy tin tức về công nghệ bán dẫn."
+        },
+        {
+          "role": "user",
+          "content": "Còn về tin tức chip AI Nvidia trong tuần này thì sao?"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "chip AI Nvidia",
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "chip AI Nvidia",
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "chip AI Nvidia",
+            "topic": "news",
+            "timeframe": "week"
+          },
+          "result": {
+            "tool": "web_search",
+            "error": "RuntimeError",
+            "message": "Missing TAVILY_API_KEY env var"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G08_multi_correction_limit_and_screenname",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: User đính chính đồng thời cả handle và limit -> Cập nhật screenname='elonmusk' và limit=3."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 10 tweet của @sama."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã lấy 10 tweet của Sam Altman."
+        },
+        {
+          "role": "user",
+          "content": "À chuyển sang lấy 3 tweet của @elonmusk đi."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 3
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "elonmusk",
+            "limit": 3
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "error": "RuntimeError",
+            "message": "Missing RAPIDAPI_KEY env var"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G09_multi_clarify_url_then_fetch",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: Lượt 1 thiếu URL -> Assistant hỏi xin URL -> Lượt 2 user đưa URL -> Gọi fetch."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Đọc nội dung bài nghiên cứu này giúp tôi."
+        },
+        {
+          "role": "assistant",
+          "content": "Bạn chưa cung cấp link URL. Vui lòng cho biết URL của bài viết."
+        },
+        {
+          "role": "user",
+          "content": "URL đây: https://arxiv.org/abs/2301.00001"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://arxiv.org/abs/2301.00001"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "paper_text",
+            "args": {
+              "arxiv_url": "https://arxiv.org/abs/2301.00001"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "missing_info",
+        "failures": [
+          "missing tool call fetch",
+          "extra tool call paper_text"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "paper_text",
+          "args": {
+            "arxiv_url": "https://arxiv.org/abs/2301.00001"
+          },
+          "result": {
+            "tool": "get_arxiv_paper_text",
+            "arxiv_id": "2301.00001",
+            "url": "https://arxiv.org/abs/2301.00001",
+            "pdf_url": "https://arxiv.org/pdf/2301.00001.pdf",
+            "pdf_path": "D:\\K3-D304-Day04-Lab-A2\\starter_v0\\arxiv_papers\\2301.00001.pdf",
+            "txt_path": "D:\\K3-D304-Day04-Lab-A2\\starter_v0\\arxiv_papers\\2301.00001.txt",
+            "page_count": 11,
+            "pages_read": 5,
+            "chars_returned": 8000,
+            "items": [
+              {
+                "title": "arXiv paper 2301.00001",
+                "url": "https://arxiv.org/abs/2301.00001",
+                "source": "arxiv.org",
+                "summary": "NFTrig: Using Blockchain Technologies for Math Education\nJORDAN THOMPSON, Augustana College, USA\nRYAN BENAC, Augustana College, USA\nKIDUS OLANA, Augustana College, USA\nTALHA HASSAN, Augustana College, USA\nANDREW SW ARD,Augustana College, USA\nTAUHEED KHAN MOHD, Augustana College, USA\nNFTrig is a web-based application created for use as an educational tool to teach trigonometry and block\nchain technology. Creation of the application includes front and back end development as well as integration\nwith other outside sources including MetaMask and OpenSea. The primary development languages include\nHTML, CSS (Bootstrap 5), and JavaScript as well as Solidity for smart contract creation. The application itself\nis hosted on Moralis utilizing their Web3 API. This technical report describes how the application was created,\nwhat the application requires, and smart contract design with security considerations in mind. The NFTrig\napplication has underwent significant testing and validation prior to and after deployment. Future suggestions\nand recommendations for further development, maintenance, and use in other fields for education are also\ndescribed.\nCCS Concepts: • Computer systems organization → Redundancy; Robotics; • Networks → Network\nreliability.\nAdditional Key Words and Phrases: Matic, Metamask, polygon, bootstrap5, Solidity\n1 INTRODUCTION\nThe purpose of this report is to describe the technical details involved in the development of the\nNFTrig application. This includes both the front end website design, the back end smart contract,\nand NFT creation. It will mainly focus on the technical details of the project outlining software\nrequirements, design through programming languages, client and server side interactions, and\nvalidation testing. This allows the reader to undertake further development, fixes, or maintenance\nof the software, as this forms part of the documentation for the software.\nThe NFTrig project is based around the creation of a web-based game application that allows\ninteraction of NFTs (non-fungible token) with trigonometric function designs. NFts are digital\nassets, for example a picture, that has a unique identification and can generally be freely traded\nwith cryptocurrency [33]. Through this application, users are able to purchase digital artwork of\nmany different trigonometric functions and combine them using mathematical operations. Current\nsupported operations include multiplication and division of the trigonometry functions, and the\noutput of each operation is a new NFT card that would be the result of an operation. The old cards\nwill then be removed from the user’s possession and burned using the smart contact. For example,\nif a user combined the two cards Sin(x) and Cos(x) using multiplication, they would lose their two\nold cards and receive the new card Tan(x). Further, the NFT cards are assigned one of the following\nrarity levels: common, uncommon, rare, and legendary. The probability of each of these levels is\ndefined later in this report.\nThe application also allows a user to connect to MetaMask, a digital wallet capable of storing a\nuser’s cryptocurrency and NFTs as well as a way to connect to block chain. The NFTrig application\nAuthors’ addresses: Jordan Thompson, jordanthompson18@augustana.edu, Augustana College, Rock Island, USA; Ryan\nBenac, ryanbenac18@augustana.edu, Augustana College, Rock Island, USA; Kidus Olana, kidusolana18@augustana.edu,\nAugustana College, Rock Island, USA; Talha Hassan, talhahassan18@augustana.edu, Augustana College, Rock Island,\nUSA; Andrew Sward, andrewsward@augustana.edu, Augustana College, Rock Island, USA; Tauheed Khan Mohd,\ntauheedkhanmohd@augustana.edu, Augustana College, Rock Island, USA.\narXiv:2301.00001v1  [cs.HC]  21 Dec 2022\n\n2 Jordan Thompson, Ryan Benac, Kidus Olana, Talha Hassan, Andrew Sward, and Tauheed Khan Mohd\ncan also display the NFTs owned by the user and allow them to connect to OpenSea to sell the\nNFTrig cards on a public marketplace. The application is hosted on Moralis employing their Web3\nAPI. Technical languages used in this project, which will be discussed in detail throughout this\npaper, include front end web development languages HTML, CSS (specifically Bootstrap5), and\nJavaScript as well as the back end smart contract development language Solidity.\nIn order to attract users, this application also allows a user to answer trivia questions and gain\nexperience points. These points can then be used to unlock new sets of NFT cards or upgrade existing\ncards in a user’s wallet. This game-like design should appeal to a younger audience and encourage\nthem to answer trigonometry or math based questions. This will have an incredible educational\nbenefit for the user because they will be both learning and playing a game simultaneously.\n2 MOTIVATION\nThe purpose of this application is as an educational tool for students who are attempting to\nunderstand the ways that trigonometric functions interact with each other. As opposed to just\ngraphing these functions by hand, students will be able to generate new NFTs by combining\nwhatever trigonometric functions they already own. In fact, using technology is shown to influence\nand better educational processes by increasing interaction between those in the classroom [ 9].\nTechnology is becoming increasingly prevalent in every sphere of daily life, so the use of technology\nin a classroom setting is not only logical, but it increases the educational benefit of students [29].\nHowever, as the technology continues to evolve, \"the gap between traditional course material\ntaught to students in B.S./M.S. programs at universities and the cutting edge of technology used in\nindustry is widening at an unprecedented rate\" [30]. By creating this project, it will give students\nthe opportunity to gain experience with block chain, and hopefully be a starting place for narrowing\nthat ever growing gap. After much research, it is likely that this proposed application is the first of\nits kind that utilizes NFTs to teach mathematical concepts.\nAside from user benefit of this application, there is also an intellectual merit in the block chain\nand education fields. Best described by Carmen Holotescu, \"As education becomes more open,\ndiversified, democratised, and decentralised, the block chain technology is taken in consideration\nby researchers, teachers and institutions, to maintain reputation, trust in certification, and proof of\nlearning\" [17]. Further, development of this project continues research on NFT and block chain\ntechnologies. This application can also serve as the boilerplate basis for other NFT-based educational\ntools and resources. Research for this project provides opportunities for training computer science\nstudents on how to use NFTs in general, but more specifically in educational contexts.\nNFTrig was developed by computer science students as a final senior inquiry project at Augustana\nCollege. In conjunction and with funding by the Department of Mathematics and Computer Science,\nthis project employs a variety of software development skills and techniques that further the\nresearch and understanding of the block chain and web development field.\n3 RELATED WORK\nBlock chain technology has enabled the formation of decentralized distributed records of digital\ndata which does not require any third party to moderate any transactions [34]. The decentralized\nnature of block chain also renders it easy for use in a ranging variety of applications in several fields\nsuch as healthcare [16], internet of things [7], gaming [2], banking [6], and education (explored in\ngreater detail in subsection 3.1). Non Fungible token (NFTs) are a relatively new phenomena within\nthe field of block chain based technologies, but its application in aforementioned fields are already\nbeing studied. Specifically within the healthcare context, NFT’s are solving long term issues such as\nstoring patients’ private data more safely as well as maintaining better records while giving better"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G10_multi_switch_from_social_to_save_note",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: Lượt 3 chuyển đổi ý định từ tìm kiếm sang lưu ghi chú -> Agent routing chính xác tới save_note."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm các bài đăng Twitter về thuật toán Attention."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã tìm thấy các bài đăng Twitter về Attention."
+        },
+        {
+          "role": "user",
+          "content": "Bỏ qua Twitter, hãy lưu tóm tắt 'Thuật toán Self-Attention hỗ trợ song song hóa' vào file attention_summary.md giúp mình."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "save_note",
+            "args": {
+              "note_content": "Thuật toán Self-Attention hỗ trợ song song hóa",
+              "filename": "attention_summary.md"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "save_note",
+            "args": {
+              "note_content": "Thuật toán Self-Attention hỗ trợ song song hóa",
+              "filename": "attention_summary.md"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "save_note",
+          "args": {
+            "note_content": "Thuật toán Self-Attention hỗ trợ song song hóa",
+            "filename": "attention_summary.md"
+          },
+          "result": {
+            "status": "Successfully appended to attention_summary.md",
+            "error": null
+          }
+        }
+      ]
+    }
+  ]
+}
