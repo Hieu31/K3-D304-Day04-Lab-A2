@@ -1,0 +1,674 @@
+{
+  "run_id": "v3_B_group_gemini_20260729T122325678855",
+  "version": "v3",
+  "artifact_version": "v3+paeac4f92d838+t2a3ba7c2b371",
+  "prompt_hash": "aeac4f92d838f2b63d4e502e1bb481819f10df31938b0f24230b659a23dbf8ac",
+  "tools_hash": "2a3ba7c2b37100aa2fe54c8e4862dd2d4a4622310a220796a202c14b6fbead20",
+  "phase": "B",
+  "suite": "group",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "system_prompt": "D:\\K3-D304-Day04-Lab-A2\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "D:\\K3-D304-Day04-Lab-A2\\starter_v0\\artifacts\\tools.yaml",
+  "eval_cases": "data\\eval_group.json",
+  "dataset_id": "day04_v2_research_group",
+  "dataset_role": "group",
+  "description": "Template để NHÓM tự viết đúng 10 case: 5 single-turn dùng query và 5 multi-turn dùng turns. Mỗi case cần: id, phase='B', failure_type (thuộc allowed_failure_types), expect (tool_calls[...] hoặc no_tool=true), và metadata.what_it_tests. File để trống có chủ đích vì mỗi nhóm phải tự thiết kế các case này.",
+  "generated_at": "2026-07-29T12:23:25",
+  "summary": {
+    "total_cases": 10,
+    "measured_cases": 10,
+    "provider_error_cases": 0,
+    "passed_cases": 10,
+    "case_accuracy": 1.0,
+    "tool_routing_accuracy": 1.0,
+    "argument_accuracy": 1.0,
+    "multiturn_accuracy": 1.0,
+    "failure_counts": {},
+    "observed_mismatch_counts": {}
+  },
+  "results": [
+    {
+      "id": "G01_single_search_translate_chain",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Test câu hỏi dịch thuật câu tiếng Anh -> Routing chính xác sang tool translate_text với target_lang='vi'."
+      },
+      "input": "Dịch bài báo khoa học này sang tiếng Việt giúp mình: 'Deep learning architectures have revolutionized computer vision.'",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "translate_text",
+            "args": {
+              "text": "Deep learning architectures have revolutionized computer vision.",
+              "target_lang": "vi"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "translate_text",
+            "args": {
+              "text": "Deep learning architectures have revolutionized computer vision.",
+              "target_lang": "vi"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "translate_text",
+          "args": {
+            "text": "Deep learning architectures have revolutionized computer vision.",
+            "target_lang": "vi"
+          },
+          "result": {
+            "translated_text": "Kiến trúc học sâu đã cách mạng hóa thị giác máy tính.",
+            "error": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "G02_single_keywords_from_text",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Test trích xuất từ khóa -> Routing sang extract_keywords và bắt buộc trích xuất đúng tham số max_keywords=3."
+      },
+      "input": "Trích xuất tối đa 3 từ khóa quan trọng nhất từ đoạn văn bản: Transformer models utilize self-attention mechanisms for natural language processing.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "extract_keywords",
+            "args": {
+              "text": "Transformer models utilize self-attention mechanisms for natural language processing.",
+              "max_keywords": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "extract_keywords",
+            "args": {
+              "max_keywords": 3,
+              "text": "Transformer models utilize self-attention mechanisms for natural language processing."
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "extract_keywords",
+          "args": {
+            "max_keywords": 3,
+            "text": "Transformer models utilize self-attention mechanisms for natural language processing."
+          },
+          "result": {
+            "keywords": [
+              "transformer",
+              "models",
+              "utilize"
+            ],
+            "error": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "G03_single_parallel_news_and_social",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Test yêu cầu tìm kiếm đa nguồn -> Bắt buộc phát ra song song 2 tool calls lookup và social_search."
+      },
+      "input": "Tìm tin tức báo chí hôm nay về Gemini 1.5 và tìm luôn các thảo luận trên Twitter về Gemini 1.5.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "Gemini 1.5",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          },
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Gemini 1.5"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "Gemini 1.5",
+              "timeframe": "day",
+              "topic": "news"
+            }
+          },
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Gemini 1.5",
+              "search_type": "Latest"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "Gemini 1.5",
+            "timeframe": "day",
+            "topic": "news"
+          },
+          "result": {
+            "tool": "web_search",
+            "error": "RuntimeError",
+            "message": "Missing TAVILY_API_KEY env var"
+          }
+        },
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "Gemini 1.5",
+            "search_type": "Latest"
+          },
+          "result": {
+            "tool": "search_tweets",
+            "error": "RuntimeError",
+            "message": "Missing RAPIDAPI_KEY env var"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G04_single_save_note_file",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Test lưu ghi chú nghiên cứu -> Routing sang save_note với đúng note_content và filename='notes.md'."
+      },
+      "input": "Lưu lại dòng ghi chú 'Hệ thống Agent cần tối ưu hóa latency khi gọi API' vào file markdown notes.md giúp mình.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "save_note",
+            "args": {
+              "note_content": "Hệ thống Agent cần tối ưu hóa latency khi gọi API",
+              "filename": "notes.md"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "save_note",
+            "args": {
+              "filename": "notes.md",
+              "note_content": "Hệ thống Agent cần tối ưu hóa latency khi gọi API"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "save_note",
+          "args": {
+            "filename": "notes.md",
+            "note_content": "Hệ thống Agent cần tối ưu hóa latency khi gọi API"
+          },
+          "result": {
+            "status": "Successfully appended to notes.md",
+            "error": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "G05_single_confirm_send_telegram",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Test hành động nhạy cảm xuất bản nội dung -> Bắt buộc gọi clarify với response_type=yes_no để xin xác nhận."
+      },
+      "input": "Đăng ngay bản tin tóm tắt này lên channel Telegram của công ty giúp tôi.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "response_type": "yes_no"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "",
+            "response_type": "yes_no",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G06_multi_clarify_handle_then_timeline",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: Lượt 1 thiếu handle -> Assistant hỏi lại -> Lượt 2 bổ sung handle và giữ nguyên limit=5 -> Gọi timeline."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Xem cho mình 5 bài đăng gần nhất của Tim Cook."
+        },
+        {
+          "role": "assistant",
+          "content": "Vui lòng cho biết Twitter handle của Tim Cook."
+        },
+        {
+          "role": "user",
+          "content": "Handle là tim_cook nha."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "tim_cook",
+              "limit": 5
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "limit": 5,
+              "screenname": "tim_cook"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "limit": 5,
+            "screenname": "tim_cook"
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "error": "RuntimeError",
+            "message": "Missing RAPIDAPI_KEY env var"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G07_multi_carryover_topic_search",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: Kế thừa dạng tra cứu tin tức web nhưng cập nhật query='chip AI Nvidia' và timeframe='week'."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm kiếm tin tức thời sự trên web về công nghệ bán dẫn hôm nay."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã tìm thấy tin tức về công nghệ bán dẫn."
+        },
+        {
+          "role": "user",
+          "content": "Còn về tin tức chip AI Nvidia trong tuần này thì sao?"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "chip AI Nvidia",
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "chip AI Nvidia",
+              "timeframe": "week",
+              "topic": "news"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "chip AI Nvidia",
+            "timeframe": "week",
+            "topic": "news"
+          },
+          "result": {
+            "tool": "web_search",
+            "error": "RuntimeError",
+            "message": "Missing TAVILY_API_KEY env var"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G08_multi_correction_limit_and_screenname",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: User đính chính đồng thời cả handle và limit -> Cập nhật screenname='elonmusk' và limit=3."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 10 tweet của @sama."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã lấy 10 tweet của Sam Altman."
+        },
+        {
+          "role": "user",
+          "content": "À chuyển sang lấy 3 tweet của @elonmusk đi."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "limit": 3,
+              "screenname": "elonmusk"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "limit": 3,
+            "screenname": "elonmusk"
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "error": "RuntimeError",
+            "message": "Missing RAPIDAPI_KEY env var"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G09_multi_clarify_url_then_fetch",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: Lượt 1 thiếu URL -> Assistant hỏi xin URL -> Lượt 2 user đưa URL -> Gọi fetch."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Đọc nội dung bài nghiên cứu này giúp tôi."
+        },
+        {
+          "role": "assistant",
+          "content": "Bạn chưa cung cấp link URL. Vui lòng cho biết URL của bài viết."
+        },
+        {
+          "role": "user",
+          "content": "URL đây: https://arxiv.org/abs/2301.00001"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://arxiv.org/abs/2301.00001"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://arxiv.org/abs/2301.00001"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://arxiv.org/abs/2301.00001"
+          },
+          "result": {
+            "tool": "read_url",
+            "error": "RuntimeError",
+            "message": "Missing FIRECRAWL_API_KEY env var"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G10_multi_switch_from_social_to_save_note",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: Lượt 3 chuyển đổi ý định từ tìm kiếm sang lưu ghi chú -> Agent routing chính xác tới save_note."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm các bài đăng Twitter về thuật toán Attention."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã tìm thấy các bài đăng Twitter về Attention."
+        },
+        {
+          "role": "user",
+          "content": "Bỏ qua Twitter, hãy lưu tóm tắt 'Thuật toán Self-Attention hỗ trợ song song hóa' vào file attention_summary.md giúp mình."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "save_note",
+            "args": {
+              "note_content": "Thuật toán Self-Attention hỗ trợ song song hóa",
+              "filename": "attention_summary.md"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "save_note",
+            "args": {
+              "note_content": "Thuật toán Self-Attention hỗ trợ song song hóa",
+              "filename": "attention_summary.md"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "save_note",
+          "args": {
+            "note_content": "Thuật toán Self-Attention hỗ trợ song song hóa",
+            "filename": "attention_summary.md"
+          },
+          "result": {
+            "status": "Successfully appended to attention_summary.md",
+            "error": null
+          }
+        }
+      ]
+    }
+  ]
+}

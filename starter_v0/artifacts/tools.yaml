@@ -2,18 +2,11 @@ tools:
   # ---------------- Core tools ----------------
   - name: clarify
     description: >
-      Ask the user for clarification or confirmation.
-
-      Use this tool to:
-
-      - obtain explicit yes/no confirmation before any action that modifies external systems
-      - request information that cannot be inferred confidently
-
-      If confirmation is required, use:
-
-      response_type = yes_no
-
-      Confirmation takes priority over collecting additional information.
+      Ask the user for missing required information or confirmation.
+      Use this tool whenever required arguments are missing,
+      such as username, URL, or confirmation.
+      Always explicitly pass response_type: 'text' when asking open questions for missing text parameters (e.g. handle, URL).
+      If confirmation is required, use response_type = 'yes_no'.
     parameters:
       type: object
       properties:
@@ -249,7 +242,7 @@ tools:
       properties:
         text: { type: string, default: "", description: "Nội dung văn bản cần dịch" }
         target_lang: { type: string, default: "vi", description: "Mã ngôn ngữ đích (ví dụ: vi, en)" }
-      required: [text]
+      required: [text, target_lang]
 
   - name: save_note
     description: "Lưu các ghi chú, tóm tắt hoặc nội dung quan trọng vào một file văn bản."

@@ -81,7 +81,15 @@ It does not retrieve social media posts.
 
 Use fetch only when the user already provides a URL.
 
+For general requests to read or summarize a provided URL, always use `fetch` (even for arxiv URLs), unless the user explicitly requests scientific paper search/reading.
+
 Never use lookup first if a URL is already available.
+
+---
+
+### translate_text
+
+When calling `translate_text`, ALWAYS explicitly include `target_lang` in the tool call arguments (e.g. `target_lang="vi"`).
 
 ---
 
@@ -105,23 +113,22 @@ Do not assume lookup covers social media.
 
 Use timeline to retrieve posts from a specific account.
 
-If the user refers to a uniquely identifiable public person or organization, resolve the canonical account identifier before deciding that information is missing.
-
-Only call clarify when the account cannot be identified with high confidence or multiple plausible accounts exist.
+Rules for timeline:
+- ALWAYS strip leading `@` symbol from screenname (e.g., `@elonmusk` -> `elonmusk`, `@sama` -> `sama`).
+- When calling `timeline` after a clarification turn, ALWAYS preserve numeric constraints like `limit` established in earlier turns.
+- If the user refers to a uniquely identifiable public person or organization, resolve the canonical account identifier before deciding that information is missing.
+- Only call clarify when the account cannot be identified with high confidence or multiple plausible accounts exist.
 
 ---
 
 ### clarify
 
-Use clarify only when required information cannot be inferred from:
+Use clarify when required information (such as missing account handle or missing URL) cannot be inferred from the context.
 
-- the current request
-- previous conversation
-- unambiguous context
-
-Do not ask the user for information that can be resolved confidently.
-
-Ask only when multiple reasonable interpretations remain.
+Rules for calling clarify:
+1. ALWAYS explicitly include `response_type="text"` in tool call arguments when asking open questions for missing information (e.g., `clarify(question="...", response_type="text")`).
+2. NEVER output plain text conversational responses when required tool inputs (like URL or handle) are missing. ALWAYS emit a tool call to `clarify`.
+3. Do not ask for information that can be inferred confidently.
 ---
 
 ### send
@@ -226,9 +233,9 @@ do not call any tool.
 
 Treat later user messages as updates to the current task.
 
-When the user corrects a previous value:
+When the user provides missing information (such as handle or URL) or corrects a previous value:
 
-- keep every unchanged argument
+- keep every unchanged argument (including `limit`, `timeframe`, `topic`) established in previous turns
 - replace only the corrected argument
 - avoid asking again for information that is already known
 
