@@ -1,0 +1,106 @@
+{
+  "transcript_id": "v3_openrouter_20260729T123359331996",
+  "version": "v3",
+  "artifact_version": "v3+p8ae7b0255977+td67ba57e92d3",
+  "prompt_hash": "8ae7b0255977ffaca4397daceec918d2bf25d06e9f1599a1dcb685ec920b0cb7",
+  "tools_hash": "d67ba57e92d3b28d2cffded2ff1eee043c9979a02db4719fe85d9ed2cf9e2bc1",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "system_prompt": "C:\\Users\\ADMIN\\Desktop\\Code Space\\K3-D304-Day04-Lab-A2\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "C:\\Users\\ADMIN\\Desktop\\Code Space\\K3-D304-Day04-Lab-A2\\starter_v0\\artifacts\\tools.yaml",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-07-29T12:33:59",
+  "updated_at": "2026-07-29T12:34:07",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-07-29T12:33:59",
+      "user": "Tìm thông tin mới nhất về Bitcoin hôm nay",
+      "status": "answered",
+      "assistant_text": "Hiện tại, tôi không thể truy cập thông tin mới nhất về Bitcoin do gặp sự cố với các công cụ tìm kiếm. Bạn có thể kiểm tra các nguồn tin tức tài chính hoặc trang web chuyên về tiền điện tử để có thông tin cập nhật. Nếu bạn cần thông tin cụ thể hơn, hãy cho tôi biết!",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "lookup",
+              "args": {
+                "query": "Bitcoin",
+                "topic": "news",
+                "timeframe": "day"
+              }
+            },
+            {
+              "name": "social_search",
+              "args": {
+                "query": "Bitcoin"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "lookup",
+              "args": {
+                "query": "Bitcoin",
+                "topic": "news",
+                "timeframe": "day"
+              },
+              "result": {
+                "tool": "web_search",
+                "error": "RuntimeError",
+                "message": "Missing TAVILY_API_KEY env var"
+              }
+            },
+            {
+              "tool": "social_search",
+              "args": {
+                "query": "Bitcoin"
+              },
+              "result": {
+                "tool": "search_tweets",
+                "error": "RuntimeError",
+                "message": "Missing RAPIDAPI_KEY env var"
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "Hiện tại, tôi không thể truy cập thông tin mới nhất về Bitcoin do gặp sự cố với các công cụ tìm kiếm. Bạn có thể kiểm tra các nguồn tin tức tài chính hoặc trang web chuyên về tiền điện tử để có thông tin cập nhật. Nếu bạn cần thông tin cụ thể hơn, hãy cho tôi biết!",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "Bitcoin",
+            "topic": "news",
+            "timeframe": "day"
+          },
+          "result": {
+            "tool": "web_search",
+            "error": "RuntimeError",
+            "message": "Missing TAVILY_API_KEY env var"
+          }
+        },
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "Bitcoin"
+          },
+          "result": {
+            "tool": "search_tweets",
+            "error": "RuntimeError",
+            "message": "Missing RAPIDAPI_KEY env var"
+          }
+        }
+      ],
+      "ended_at": "2026-07-29T12:34:07"
+    }
+  ],
+  "source": "streamlit_app"
+}
