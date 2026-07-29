@@ -2,9 +2,18 @@ tools:
   # ---------------- Core tools ----------------
   - name: clarify
     description: >
-      Ask the user for missing required information or confirmation.
-      Use this tool whenever required arguments are missing,
-      such as username, URL, or confirmation.
+      Ask the user for clarification or confirmation.
+
+      Use this tool to:
+
+      - obtain explicit yes/no confirmation before any action that modifies external systems
+      - request information that cannot be inferred confidently
+
+      If confirmation is required, use:
+
+      response_type = yes_no
+
+      Confirmation takes priority over collecting additional information.
     parameters:
       type: object
       properties:
@@ -32,9 +41,11 @@ tools:
       Requires:
       - screenname
 
-      If the account is not specified,
-      do not guess.
-      Use clarify first.
+      If the referenced account cannot be identified confidently,
+      use clarify.
+
+      Do not ask for clarification when a unique public account
+      can be resolved confidently.
     parameters:
       type: object
       properties:
@@ -46,12 +57,17 @@ tools:
     description: >
       Search public social media posts by keyword.
 
-      Requires:
-      - query
+      Always use this tool whenever the user explicitly requests:
 
-      Use this tool for tweets or social posts.
+      - tweets
+      - X posts
+      - Twitter posts
+      - social media posts
 
-      Do not use this tool for general web news.
+      If web search and social media are both requested,
+      call both social_search and lookup.
+
+      lookup does not retrieve social media posts.
     parameters:
       type: object
       properties:
@@ -69,7 +85,9 @@ tools:
   - name: lookup
     description: >
       Search the public web.
+      This tool retrieves web pages and news only.
 
+      It does not search Twitter, X, or other social media.
       Use for:
       - news
       - web pages
@@ -150,10 +168,14 @@ tools:
     description: >
       Send or publish text.
 
-      This tool requires explicit user confirmation.
+      Never use this tool without explicit user confirmation.
 
-      Always call clarify first to obtain a yes/no confirmation
-      before using this tool.
+      Before every send, publish, post, update or delete action,
+      first call:
+
+      clarify(response_type="yes_no")
+
+      Do not request any additional information before confirmation.
     parameters:
       type: object
       properties:
