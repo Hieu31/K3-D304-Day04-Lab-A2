@@ -1,8 +1,8 @@
 {
-  "run_id": "v1_B_base_groq_20260729T103506562060",
-  "version": "v1",
-  "artifact_version": "v1+p7d9122c4037b+t284822d69645",
-  "prompt_hash": "7d9122c4037b33fbde433c99be1e6a6be89989998a133ed835b640dc9ef62fb8",
+  "run_id": "v2_B_base_groq_20260729T110519584948",
+  "version": "v2",
+  "artifact_version": "v2+p8ae7b0255977+t284822d69645",
+  "prompt_hash": "8ae7b0255977ffaca4397daceec918d2bf25d06e9f1599a1dcb685ec920b0cb7",
   "tools_hash": "284822d69645c1072154caea5828d7c5a817de7e9d0dd2ce2f527add8a7727ed",
   "phase": "B",
   "suite": "base",
@@ -14,24 +14,23 @@
   "dataset_id": "day04_v2_research_base",
   "dataset_role": "base",
   "description": "Core eval cho research agent: routing đúng tool + đúng args, hỏi lại khi thiếu (ask_user), xác nhận trước khi gửi, và xử lý câu ngoài phạm vi / không cần tool. Chấm trên tool_calls + args (subset). KHÔNG sửa file này — chỉ thêm case vào eval_group.json.",
-  "generated_at": "2026-07-29T10:35:06",
+  "generated_at": "2026-07-29T11:05:19",
   "summary": {
     "total_cases": 20,
     "measured_cases": 20,
     "provider_error_cases": 0,
-    "passed_cases": 15,
-    "case_accuracy": 0.75,
-    "tool_routing_accuracy": 0.8,
-    "argument_accuracy": 0.75,
-    "multiturn_accuracy": 0.6667,
+    "passed_cases": 18,
+    "case_accuracy": 0.9,
+    "tool_routing_accuracy": 0.95,
+    "argument_accuracy": 0.9,
+    "multiturn_accuracy": 1.0,
     "failure_counts": {
-      "wrong_tool": 2,
       "wrong_boundary": 1,
-      "wrong_arg_value": 2
+      "wrong_tool": 1
     },
     "observed_mismatch_counts": {
-      "missing_tool_call": 4,
-      "wrong_arg_value": 1
+      "wrong_arg_value": 1,
+      "missing_tool_call": 1
     }
   },
   "results": [
@@ -58,40 +57,35 @@
         ]
       },
       "result": {
-        "passed": false,
-        "routing_correct": false,
-        "args_correct": false,
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
         "actual_tool_calls": [
           {
-            "name": "clarify",
+            "name": "timeline",
             "args": {
-              "question": "Bạn có thể cung cấp tên tài khoản Twitter (screenname) của Sam Altman không？",
-              "response_type": "text"
+              "limit": 1,
+              "screenname": "sama"
             }
           }
         ],
         "actual_text": null,
         "case_failure_type": "wrong_tool",
-        "observed_mismatch": "missing_tool_call",
-        "failure_type": "wrong_tool",
-        "failures": [
-          "missing tool call timeline",
-          "extra tool call clarify"
-        ]
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
       },
       "tool_results": [
         {
-          "tool": "clarify",
+          "tool": "timeline",
           "args": {
-            "question": "Bạn có thể cung cấp tên tài khoản Twitter (screenname) của Sam Altman không？",
-            "response_type": "text"
+            "limit": 1,
+            "screenname": "sama"
           },
           "result": {
-            "tool": "ask_user",
-            "question": "Bạn có thể cung cấp tên tài khoản Twitter (screenname) của Sam Altman không？",
-            "response_type": "text",
-            "options": [],
-            "awaiting_user": true
+            "tool": "get_user_tweets",
+            "error": "RuntimeError",
+            "message": "Missing RAPIDAPI_KEY env var"
           }
         }
       ]
@@ -124,7 +118,7 @@
           {
             "name": "social_search",
             "args": {
-              "limit": 5,
+              "limit": 10,
               "query": "GPT-5",
               "search_type": "Latest"
             }
@@ -140,7 +134,7 @@
         {
           "tool": "social_search",
           "args": {
-            "limit": 5,
+            "limit": 10,
             "query": "GPT-5",
             "search_type": "Latest"
           },
@@ -465,7 +459,7 @@
         "routing_correct": true,
         "args_correct": true,
         "actual_tool_calls": [],
-        "actual_text": "∫ x² dx = \\(\\displaystyle \\frac{x^{3}}{3}+C\\)\n\n**Giải thích nhanh:**  \n- Đạo hàm của \\(x^{n}\\) là \\(n x^{n-1}\\).  \n- Để tìm nguyên hàm (tích phân bất định) của \\(x^{2}\\), ta cần một hàm \\(F(x)\\) sao cho \\(F'(x)=x^{2}\\).  \n- Nếu đặt \\(F(x)=\\frac{x^{3}}{3}\\), thì \\(F'(x)=\\frac{3x^{2}}{3}=x^{2}\\).  \n- Vì tích phân bất định luôn có hằng số tùy ý, nên thêm \\(C\\) (hằng số tích phân).",
+        "actual_text": "Để tìm nguyên hàm (tích phân bất định) của hàm \\(f(x)=x^{2}\\), ta sử dụng công thức cơ bản:\n\n\\[\n\\int x^{n}\\,dx = \\frac{x^{\\,n+1}}{n+1}+C \\qquad (n\\neq -1)\n\\]\n\nỞ đây \\(n = 2\\), vì vậy:\n\n\\[\n\\int x^{2}\\,dx = \\frac{x^{\\,2+1}}{2+1}+C = \\frac{x^{3}}{3}+C.\n\\]\n\nVậy **nguyên hàm của \\(x^{2}\\) là \\(\\displaystyle \\frac{x^{3}}{3}+C\\)**, trong đó \\(C\\) là hằng số tùy ý.",
         "case_failure_type": "out_of_scope",
         "observed_mismatch": null,
         "failure_type": null,
@@ -494,7 +488,7 @@
         "routing_correct": true,
         "args_correct": true,
         "actual_tool_calls": [],
-        "actual_text": "Chào bạn! Tôi là một trợ lý nghiên cứu nhanh nhạy, được trang bị khả năng truy cập vào các công cụ tìm kiếm và thu thập thông tin trên web, mạng xã hội, cơ sở dữ liệu học thuật và các tài liệu nội bộ. \n\n**Các khả năng chính của tôi:**\n\n1. **Tìm kiếm web (lookup)** – Tra cứu tin tức, bài viết, sự kiện mới nhất hoặc thông tin chung trên internet.  \n2. **Lấy nội dung từ URL (fetch)** – Đọc và trích xuất nội dung của một trang web cụ thể khi bạn cung cấp liên kết.  \n3. **Tìm kiếm trên mạng xã hội (social_search)** – Tìm các bài đăng công khai dựa trên từ khóa, sắp xếp theo mới nhất hoặc phổ biến.  \n4. **Xem lịch sử bài đăng của một tài khoản (timeline)** – Lấy các bài viết gần đây của một tài khoản mạng xã hội đã biết.  \n5. **Tìm kiếm bài báo khoa học (papers)** – Tìm các công trình nghiên cứu, bài báo trên arXiv, PubMed, v.v.  \n6. **Lấy nội dung chi tiết của bài báo (paper_text)** – Trích xuất văn bản đầy đủ (hoặc một phần) của một bài báo khoa học.  \n7. **Tra cứu chính sách nội bộ (policy)** – Kiểm tra các quy định, hướng dẫn nội bộ liên quan đến việc sử dụng dữ liệu, bảo mật, xuất bản, v.v.  \n8. **Định dạng kết quả (format)** – Biên soạn thông tin thu thập được thành các dạng văn bản dễ đọc như danh sách, đoạn tóm tắt, báo cáo ngắn, v.v.  \n9. **Gửi hoặc xuất bản nội dung (send)** – Khi bạn xác nhận, tôi có thể gửi hoặc xuất bản văn bản đã chuẩn bị.\n\nTôi luôn tuân thủ các quy tắc bảo mật và không tự ý tạo ra thông tin chưa được xác thực. Nếu bạn có bất kỳ câu hỏi cụ thể nào hoặc cần tìm kiếm thông tin nào, chỉ cần cho tôi biết chi tiết và tôi sẽ hỗ trợ ngay!",
+        "actual_text": "Chào bạn! Tôi là một trợ lý ảo được xây dựng dựa trên mô hình ngôn ngữ lớn của OpenAI. Với khả năng xử lý ngôn ngữ tự nhiên, tôi có thể:\n\n- **Trả lời câu hỏi**: Cung cấp thông tin, giải thích khái niệm, hỗ trợ học tập và nghiên cứu.\n- **Tìm kiếm thông tin**: Sử dụng các công cụ tìm kiếm web, tra cứu tin tức, bài báo khoa học, hoặc tìm nội dung trên mạng xã hội khi cần.\n- **Xử lý tài liệu**: Đọc và tóm tắt nội dung từ các trang web, bài báo, tài liệu PDF, hoặc văn bản dài.\n- **Tạo nội dung**: Viết bài, soạn email, soạn thảo báo cáo, tạo danh sách, lên kế hoạch, viết mã lập trình, v.v.\n- **Phân tích dữ liệu**: Giúp bạn hiểu và phân tích dữ liệu, biểu đồ, thống kê cơ bản.\n- **Hỗ trợ ngôn ngữ**: Dịch thuật, kiểm tra ngữ pháp, gợi ý cách diễn đạt tự nhiên hơn.\n- **Tương tác đa ngôn ngữ**: Giao tiếp bằng nhiều ngôn ngữ, trong đó có tiếng Việt, tiếng Anh và nhiều ngôn ngữ khác.\n- **Thực hiện các tác vụ có cấu trúc**: Sử dụng các công cụ nội bộ (lookup, fetch, social_search, timeline, papers, paper_text, format, send, …) để thu thập, định dạng và (khi có sự đồng ý) gửi thông tin.\n\nTôi luôn cố gắng cung cấp câu trả lời chính xác, ngắn gọn và hữu ích, đồng thời tuân thủ các quy tắc bảo mật và tôn trọng quyền riêng tư. Nếu bạn có bất kỳ yêu cầu nào cụ thể, cứ thoải mái cho tôi biết nhé!",
         "case_failure_type": "unnecessary_tool",
         "observed_mismatch": null,
         "failure_type": null,
@@ -532,7 +526,7 @@
           {
             "name": "clarify",
             "args": {
-              "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản Twitter nào?",
+              "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản nào? Vui lòng cung cấp từ khóa hoặc tên tài khoản Twitter.",
               "response_type": "text"
             }
           }
@@ -547,12 +541,12 @@
         {
           "tool": "clarify",
           "args": {
-            "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản Twitter nào?",
+            "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản nào? Vui lòng cung cấp từ khóa hoặc tên tài khoản Twitter.",
             "response_type": "text"
           },
           "result": {
             "tool": "ask_user",
-            "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản Twitter nào?",
+            "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản nào? Vui lòng cung cấp từ khóa hoặc tên tài khoản Twitter.",
             "response_type": "text",
             "options": [],
             "awaiting_user": true
@@ -648,7 +642,7 @@
           {
             "name": "clarify",
             "args": {
-              "question": "Bạn có thể cung cấp nội dung hoặc URL của bản tin mà bạn muốn đăng lên Telegram không?",
+              "question": "Bạn muốn đăng nội dung gì lên Telegram? Vui lòng cung cấp bản tin hoặc văn bản cần đăng.",
               "response_type": "text"
             }
           }
@@ -665,12 +659,12 @@
         {
           "tool": "clarify",
           "args": {
-            "question": "Bạn có thể cung cấp nội dung hoặc URL của bản tin mà bạn muốn đăng lên Telegram không?",
+            "question": "Bạn muốn đăng nội dung gì lên Telegram? Vui lòng cung cấp bản tin hoặc văn bản cần đăng.",
             "response_type": "text"
           },
           "result": {
             "tool": "ask_user",
-            "question": "Bạn có thể cung cấp nội dung hoặc URL của bản tin mà bạn muốn đăng lên Telegram không?",
+            "question": "Bạn muốn đăng nội dung gì lên Telegram? Vui lòng cung cấp bản tin hoặc văn bản cần đăng.",
             "response_type": "text",
             "options": [],
             "awaiting_user": true
@@ -769,7 +763,7 @@
         "routing_correct": true,
         "args_correct": true,
         "actual_tool_calls": [],
-        "actual_text": "Dưới đây là một hàm Python tính dãy Fibonacci bằng đệ quy (recursion). Hàm `fib(n)` trả về giá trị thứ n của dãy Fibonacci, trong đó `fib(0) = 0` và `fib(1) = 1`.\n\n```python\ndef fib(n: int) -> int:\n    \"\"\"\n    Tính số Fibonacci thứ n bằng đệ quy.\n\n    Tham số:\n        n (int): Chỉ số của số Fibonacci cần tính (n >= 0).\n\n    Trả về:\n        int: Giá trị Fibonacci tại vị trí n.\n\n    Lưu ý:\n        - Đệ quy thuần sẽ có độ phức tạp thời gian O(2^n), nên chỉ thích hợp cho n\n          nhỏ (ví dụ n <= 30). Đối với n lớn hơn, nên dùng memoization hoặc\n          phương pháp lặp để tối ưu.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"n phải là số nguyên không âm\")\n    # Các trường hợp cơ sở\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    # Đệ quy\n    return fib(n - 1) + fib(n - 2)\n\n\n# Ví dụ sử dụng\nif __name__ == \"__main__\":\n    for i in range(10):\n        print(f\"fib({i}) = {fib(i)}\")\n```\n\n**Giải thích nhanh:**\n\n- **Trường hợp cơ sở**: Khi `n` bằng 0 hoặc 1, hàm trả về ngay giá trị tương ứng.\n- **Đệ quy**: Đối với các giá trị lớn hơn, hàm gọi lại chính nó với `n-1` và `n-2`, sau đó cộng hai kết quả lại để có `fib(n)`.\n- **Kiểm tra đầu vào**: Nếu `n` âm, hàm sẽ ném `ValueError` để thông báo lỗi.\n\nNếu bạn cần tính các giá trị lớn hơn một cách hiệu quả hơn, có thể áp dụng **memoization** (lưu trữ các kết quả đã tính) hoặc chuyển sang thuật toán lặp. Nếu muốn mình viết phiên bản có memoization, cứ cho mình biết nhé!",
+        "actual_text": "Dưới đây là một hàm Python tính dãy Fibonacci bằng đệ quy (recursion). Hàm `fib(n)` trả về giá trị thứ n của dãy Fibonacci, trong đó `fib(0) = 0` và `fib(1) = 1`.\n\n```python\ndef fib(n: int) -> int:\n    \"\"\"\n    Tính số Fibonacci thứ n bằng đệ quy.\n\n    Tham số:\n        n (int): Chỉ số của số Fibonacci cần tính (n >= 0).\n\n    Trả về:\n        int: Giá trị Fibonacci tại vị trí n.\n\n    Lưu ý:\n        - Đệ quy thuần sẽ có độ phức tạp thời gian O(2^n), nên chỉ thích hợp\n          cho các giá trị n nhỏ (ví dụ n <= 30). Đối với n lớn hơn,\n          nên dùng memoization hoặc thuật toán lặp để tối ưu.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"n phải là số nguyên không âm\")\n    # Các trường hợp cơ sở\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    # Đệ quy\n    return fib(n - 1) + fib(n - 2)\n\n\n# Ví dụ sử dụng\nif __name__ == \"__main__\":\n    for i in range(10):\n        print(f\"fib({i}) = {fib(i)}\")\n```\n\n**Giải thích nhanh:**\n\n- Khi `n` bằng 0 hoặc 1, hàm trả về giá trị cơ sở tương ứng.\n- Với các giá trị `n` lớn hơn, hàm gọi lại chính nó để tính `fib(n‑1)` và `fib(n‑2)`, sau đó cộng lại.\n- Nếu bạn cần tính các giá trị lớn hơn một cách hiệu quả, có thể thêm **memoization** (lưu trữ các kết quả đã tính) hoặc chuyển sang thuật toán lặp.",
         "case_failure_type": "out_of_scope",
         "observed_mismatch": null,
         "failure_type": null,
@@ -959,40 +953,35 @@
         ]
       },
       "result": {
-        "passed": false,
-        "routing_correct": false,
-        "args_correct": false,
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
         "actual_tool_calls": [
           {
-            "name": "clarify",
+            "name": "timeline",
             "args": {
-              "question": "Bạn muốn lấy tweet của tài khoản Twitter nào? Vui lòng cung cấp tên người dùng (screenname) của Andrej Karpathy.",
-              "response_type": "text"
+              "limit": 3,
+              "screenname": "karpathy"
             }
           }
         ],
         "actual_text": null,
         "case_failure_type": "wrong_arg_value",
-        "observed_mismatch": "missing_tool_call",
-        "failure_type": "wrong_arg_value",
-        "failures": [
-          "missing tool call timeline",
-          "extra tool call clarify"
-        ]
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
       },
       "tool_results": [
         {
-          "tool": "clarify",
+          "tool": "timeline",
           "args": {
-            "question": "Bạn muốn lấy tweet của tài khoản Twitter nào? Vui lòng cung cấp tên người dùng (screenname) của Andrej Karpathy.",
-            "response_type": "text"
+            "limit": 3,
+            "screenname": "karpathy"
           },
           "result": {
-            "tool": "ask_user",
-            "question": "Bạn muốn lấy tweet của tài khoản Twitter nào? Vui lòng cung cấp tên người dùng (screenname) của Andrej Karpathy.",
-            "response_type": "text",
-            "options": [],
-            "awaiting_user": true
+            "tool": "get_user_tweets",
+            "error": "RuntimeError",
+            "message": "Missing RAPIDAPI_KEY env var"
           }
         }
       ]
@@ -1101,40 +1090,35 @@
         ]
       },
       "result": {
-        "passed": false,
-        "routing_correct": false,
-        "args_correct": false,
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
         "actual_tool_calls": [
           {
-            "name": "clarify",
+            "name": "timeline",
             "args": {
-              "question": "Please provide the exact Twitter screenname (e.g., @elonmusk) for Elon Musk.",
-              "response_type": "text"
+              "limit": 3,
+              "screenname": "elonmusk"
             }
           }
         ],
         "actual_text": null,
         "case_failure_type": "wrong_arg_value",
-        "observed_mismatch": "missing_tool_call",
-        "failure_type": "wrong_arg_value",
-        "failures": [
-          "missing tool call timeline",
-          "extra tool call clarify"
-        ]
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
       },
       "tool_results": [
         {
-          "tool": "clarify",
+          "tool": "timeline",
           "args": {
-            "question": "Please provide the exact Twitter screenname (e.g., @elonmusk) for Elon Musk.",
-            "response_type": "text"
+            "limit": 3,
+            "screenname": "elonmusk"
           },
           "result": {
-            "tool": "ask_user",
-            "question": "Please provide the exact Twitter screenname (e.g., @elonmusk) for Elon Musk.",
-            "response_type": "text",
-            "options": [],
-            "awaiting_user": true
+            "tool": "get_user_tweets",
+            "error": "RuntimeError",
+            "message": "Missing RAPIDAPI_KEY env var"
           }
         }
       ]
