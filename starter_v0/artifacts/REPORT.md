@@ -41,9 +41,9 @@ Research Agent đa năng hỗ trợ tra cứu tin tức web, tìm kiếm thảo 
 | `translate_text` | Dịch đoạn văn bản ngoại ngữ sang ngôn ngữ đích (ví dụ: tiếng Việt `vi`) | **Có** |
 | `extract_keywords` | Trích xuất các từ khóa và thực thể chính từ đoạn văn bản dài với số lượng tùy chỉnh | **Có** |
 | `save_note` | Lưu trữ ghi chú, tóm tắt nghiên cứu vào file văn bản Markdown (`.md`) | **Có** |
-| `papers` | Tìm kiếm các bài báo nghiên cứu khoa học trên thư viện arXiv | **Có** |
-| `paper_text` | Trích xuất nội dung văn bản chi tiết của bài báo khoa học từ arXiv | **Có** |
-| `policy` | Tra cứu các quy định, chính sách nội bộ của hệ thống | **Có** |
+| `papers` | Tìm kiếm các bài báo nghiên cứu khoa học trên thư viện arXiv | Không  |
+| `paper_text` | Trích xuất nội dung văn bản chi tiết của bài báo khoa học từ arXiv | Không  |
+| `policy` | Tra cứu các quy định, chính sách nội bộ của hệ thống | Không  |
 
 ---
 
