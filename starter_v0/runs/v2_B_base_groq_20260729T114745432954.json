@@ -1,9 +1,9 @@
 {
-  "run_id": "v2_B_base_groq_20260729T110519584948",
+  "run_id": "v2_B_base_groq_20260729T114745432954",
   "version": "v2",
-  "artifact_version": "v2+p8ae7b0255977+t284822d69645",
-  "prompt_hash": "8ae7b0255977ffaca4397daceec918d2bf25d06e9f1599a1dcb685ec920b0cb7",
-  "tools_hash": "284822d69645c1072154caea5828d7c5a817de7e9d0dd2ce2f527add8a7727ed",
+  "artifact_version": "v2+p78471b5defca+t0ffec55d35a3",
+  "prompt_hash": "78471b5defca0c4b78cf3b9c5480c9e60ab7fba12e9319aa1cc2171d777a2fac",
+  "tools_hash": "0ffec55d35a334814189f9c179c61912b2f40240c46690583d50a44228515468",
   "phase": "B",
   "suite": "base",
   "provider": "groq",
@@ -14,15 +14,15 @@
   "dataset_id": "day04_v2_research_base",
   "dataset_role": "base",
   "description": "Core eval cho research agent: routing đúng tool + đúng args, hỏi lại khi thiếu (ask_user), xác nhận trước khi gửi, và xử lý câu ngoài phạm vi / không cần tool. Chấm trên tool_calls + args (subset). KHÔNG sửa file này — chỉ thêm case vào eval_group.json.",
-  "generated_at": "2026-07-29T11:05:19",
+  "generated_at": "2026-07-29T11:47:45",
   "summary": {
     "total_cases": 20,
-    "measured_cases": 20,
-    "provider_error_cases": 0,
-    "passed_cases": 18,
-    "case_accuracy": 0.9,
-    "tool_routing_accuracy": 0.95,
-    "argument_accuracy": 0.9,
+    "measured_cases": 18,
+    "provider_error_cases": 2,
+    "passed_cases": 16,
+    "case_accuracy": 0.8889,
+    "tool_routing_accuracy": 0.9444,
+    "argument_accuracy": 0.8889,
     "multiturn_accuracy": 1.0,
     "failure_counts": {
       "wrong_boundary": 1,
@@ -118,7 +118,7 @@
           {
             "name": "social_search",
             "args": {
-              "limit": 10,
+              "limit": 5,
               "query": "GPT-5",
               "search_type": "Latest"
             }
@@ -134,7 +134,7 @@
         {
           "tool": "social_search",
           "args": {
-            "limit": 10,
+            "limit": 5,
             "query": "GPT-5",
             "search_type": "Latest"
           },
@@ -351,7 +351,7 @@
             "name": "lookup",
             "args": {
               "max_results": 5,
-              "query": "Tin công nghệ trong tuần này",
+              "query": "technology news",
               "timeframe": "week",
               "topic": "news"
             }
@@ -368,7 +368,7 @@
           "tool": "lookup",
           "args": {
             "max_results": 5,
-            "query": "Tin công nghệ trong tuần này",
+            "query": "technology news",
             "timeframe": "week",
             "topic": "news"
           },
@@ -459,7 +459,7 @@
         "routing_correct": true,
         "args_correct": true,
         "actual_tool_calls": [],
-        "actual_text": "Để tìm nguyên hàm (tích phân bất định) của hàm \\(f(x)=x^{2}\\), ta sử dụng công thức cơ bản:\n\n\\[\n\\int x^{n}\\,dx = \\frac{x^{\\,n+1}}{n+1}+C \\qquad (n\\neq -1)\n\\]\n\nỞ đây \\(n = 2\\), vì vậy:\n\n\\[\n\\int x^{2}\\,dx = \\frac{x^{\\,2+1}}{2+1}+C = \\frac{x^{3}}{3}+C.\n\\]\n\nVậy **nguyên hàm của \\(x^{2}\\) là \\(\\displaystyle \\frac{x^{3}}{3}+C\\)**, trong đó \\(C\\) là hằng số tùy ý.",
+        "actual_text": "∫ x² dx = \\(\\displaystyle \\frac{x^{3}}{3}+C\\)\n\n**Giải thích nhanh:**  \n- Đặt \\(x = t\\) thì \\(dx = dt\\).  \n- Áp dụng công thức cơ bản \\(\\int x^{n}\\,dx = \\frac{x^{n+1}}{n+1}+C\\) (với \\(n \\neq -1\\)).  \n- Với \\(n = 2\\) ta có \\(\\int x^{2}\\,dx = \\frac{x^{3}}{3}+C\\).\n\n\\(C\\) là hằng số tùy ý (nguyên hàm bất định).",
         "case_failure_type": "out_of_scope",
         "observed_mismatch": null,
         "failure_type": null,
@@ -488,7 +488,7 @@
         "routing_correct": true,
         "args_correct": true,
         "actual_tool_calls": [],
-        "actual_text": "Chào bạn! Tôi là một trợ lý ảo được xây dựng dựa trên mô hình ngôn ngữ lớn của OpenAI. Với khả năng xử lý ngôn ngữ tự nhiên, tôi có thể:\n\n- **Trả lời câu hỏi**: Cung cấp thông tin, giải thích khái niệm, hỗ trợ học tập và nghiên cứu.\n- **Tìm kiếm thông tin**: Sử dụng các công cụ tìm kiếm web, tra cứu tin tức, bài báo khoa học, hoặc tìm nội dung trên mạng xã hội khi cần.\n- **Xử lý tài liệu**: Đọc và tóm tắt nội dung từ các trang web, bài báo, tài liệu PDF, hoặc văn bản dài.\n- **Tạo nội dung**: Viết bài, soạn email, soạn thảo báo cáo, tạo danh sách, lên kế hoạch, viết mã lập trình, v.v.\n- **Phân tích dữ liệu**: Giúp bạn hiểu và phân tích dữ liệu, biểu đồ, thống kê cơ bản.\n- **Hỗ trợ ngôn ngữ**: Dịch thuật, kiểm tra ngữ pháp, gợi ý cách diễn đạt tự nhiên hơn.\n- **Tương tác đa ngôn ngữ**: Giao tiếp bằng nhiều ngôn ngữ, trong đó có tiếng Việt, tiếng Anh và nhiều ngôn ngữ khác.\n- **Thực hiện các tác vụ có cấu trúc**: Sử dụng các công cụ nội bộ (lookup, fetch, social_search, timeline, papers, paper_text, format, send, …) để thu thập, định dạng và (khi có sự đồng ý) gửi thông tin.\n\nTôi luôn cố gắng cung cấp câu trả lời chính xác, ngắn gọn và hữu ích, đồng thời tuân thủ các quy tắc bảo mật và tôn trọng quyền riêng tư. Nếu bạn có bất kỳ yêu cầu nào cụ thể, cứ thoải mái cho tôi biết nhé!",
+        "actual_text": "Chào bạn! Tôi là một trợ lý nghiên cứu nhanh nhạy, được trang bị khả năng truy cập vào các công cụ tìm kiếm và xử lý thông tin để hỗ trợ bạn trong các nhiệm vụ như:\n\n- **Tìm kiếm web và tin tức** (lookup) – lấy các kết quả mới nhất từ internet.\n- **Lấy nội dung từ một URL cụ thể** (fetch) – đọc và trích xuất thông tin từ trang web bạn cung cấp.\n- **Tìm kiếm và thu thập bài đăng trên mạng xã hội** (social_search) – tìm tweet, bài đăng X, hoặc các nội dung xã hội khác.\n- **Lấy timeline của một tài khoản xã hội** (timeline) – xem các bài đăng gần đây của một người hoặc tổ chức.\n- **Tìm kiếm các bài báo khoa học** (papers) và trích xuất nội dung chi tiết (paper_text).\n- **Trích xuất từ khóa và thực thể** (extract_keywords) từ văn bản dài.\n- **Dịch ngôn ngữ** (translate_text) – dịch văn bản sang tiếng Việt hoặc các ngôn ngữ khác.\n- **Lưu ghi chú** (save_note) – ghi lại tóm tắt, ý tưởng hoặc bất kỳ nội dung quan trọng nào vào file.\n- **Định dạng và trình bày dữ liệu** (format) – biến dữ liệu thô thành các bản tóm tắt, danh sách, hoặc báo cáo có cấu trúc.\n- **Gửi hoặc xuất bản nội dung** (send) – nhưng chỉ sau khi bạn xác nhận rõ ràng (yes/no).\n\nNgoài ra, tôi luôn tuân thủ các quy tắc an toàn và bảo mật, không tự ý thực hiện các hành động thay đổi hệ thống mà không có sự đồng ý của bạn. Nếu bạn có bất kỳ câu hỏi cụ thể nào hoặc cần trợ giúp với một nhiệm vụ nào đó, cứ cho tôi biết nhé!",
         "case_failure_type": "unnecessary_tool",
         "observed_mismatch": null,
         "failure_type": null,
@@ -526,7 +526,7 @@
           {
             "name": "clarify",
             "args": {
-              "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản nào? Vui lòng cung cấp từ khóa hoặc tên tài khoản Twitter.",
+              "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản nào? Vui lòng cung cấp từ khóa hoặc tên tài khoản.",
               "response_type": "text"
             }
           }
@@ -541,12 +541,12 @@
         {
           "tool": "clarify",
           "args": {
-            "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản nào? Vui lòng cung cấp từ khóa hoặc tên tài khoản Twitter.",
+            "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản nào? Vui lòng cung cấp từ khóa hoặc tên tài khoản.",
             "response_type": "text"
           },
           "result": {
             "tool": "ask_user",
-            "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản nào? Vui lòng cung cấp từ khóa hoặc tên tài khoản Twitter.",
+            "question": "Bạn muốn tóm tắt 5 tweet mới nhất về chủ đề nào hoặc từ tài khoản nào? Vui lòng cung cấp từ khóa hoặc tên tài khoản.",
             "response_type": "text",
             "options": [],
             "awaiting_user": true
@@ -584,7 +584,7 @@
           {
             "name": "clarify",
             "args": {
-              "question": "Bạn có thể cung cấp liên kết URL của bài viết mà bạn muốn tóm tắt không?",
+              "question": "Bạn có thể cung cấp liên kết URL của bài viết hoặc nội dung văn bản cần tóm tắt không?",
               "response_type": "text"
             }
           }
@@ -599,12 +599,12 @@
         {
           "tool": "clarify",
           "args": {
-            "question": "Bạn có thể cung cấp liên kết URL của bài viết mà bạn muốn tóm tắt không?",
+            "question": "Bạn có thể cung cấp liên kết URL của bài viết hoặc nội dung văn bản cần tóm tắt không?",
             "response_type": "text"
           },
           "result": {
             "tool": "ask_user",
-            "question": "Bạn có thể cung cấp liên kết URL của bài viết mà bạn muốn tóm tắt không?",
+            "question": "Bạn có thể cung cấp liên kết URL của bài viết hoặc nội dung văn bản cần tóm tắt không?",
             "response_type": "text",
             "options": [],
             "awaiting_user": true
@@ -642,7 +642,7 @@
           {
             "name": "clarify",
             "args": {
-              "question": "Bạn muốn đăng nội dung gì lên Telegram? Vui lòng cung cấp bản tin hoặc văn bản cần đăng.",
+              "question": "Bạn có thể cung cấp nội dung bản tin mà muốn đăng lên Telegram không?",
               "response_type": "text"
             }
           }
@@ -659,12 +659,12 @@
         {
           "tool": "clarify",
           "args": {
-            "question": "Bạn muốn đăng nội dung gì lên Telegram? Vui lòng cung cấp bản tin hoặc văn bản cần đăng.",
+            "question": "Bạn có thể cung cấp nội dung bản tin mà muốn đăng lên Telegram không?",
             "response_type": "text"
           },
           "result": {
             "tool": "ask_user",
-            "question": "Bạn muốn đăng nội dung gì lên Telegram? Vui lòng cung cấp bản tin hoặc văn bản cần đăng.",
+            "question": "Bạn có thể cung cấp nội dung bản tin mà muốn đăng lên Telegram không?",
             "response_type": "text",
             "options": [],
             "awaiting_user": true
@@ -763,7 +763,7 @@
         "routing_correct": true,
         "args_correct": true,
         "actual_tool_calls": [],
-        "actual_text": "Dưới đây là một hàm Python tính dãy Fibonacci bằng đệ quy (recursion). Hàm `fib(n)` trả về giá trị thứ n của dãy Fibonacci, trong đó `fib(0) = 0` và `fib(1) = 1`.\n\n```python\ndef fib(n: int) -> int:\n    \"\"\"\n    Tính số Fibonacci thứ n bằng đệ quy.\n\n    Tham số:\n        n (int): Chỉ số của số Fibonacci cần tính (n >= 0).\n\n    Trả về:\n        int: Giá trị Fibonacci tại vị trí n.\n\n    Lưu ý:\n        - Đệ quy thuần sẽ có độ phức tạp thời gian O(2^n), nên chỉ thích hợp\n          cho các giá trị n nhỏ (ví dụ n <= 30). Đối với n lớn hơn,\n          nên dùng memoization hoặc thuật toán lặp để tối ưu.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"n phải là số nguyên không âm\")\n    # Các trường hợp cơ sở\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    # Đệ quy\n    return fib(n - 1) + fib(n - 2)\n\n\n# Ví dụ sử dụng\nif __name__ == \"__main__\":\n    for i in range(10):\n        print(f\"fib({i}) = {fib(i)}\")\n```\n\n**Giải thích nhanh:**\n\n- Khi `n` bằng 0 hoặc 1, hàm trả về giá trị cơ sở tương ứng.\n- Với các giá trị `n` lớn hơn, hàm gọi lại chính nó để tính `fib(n‑1)` và `fib(n‑2)`, sau đó cộng lại.\n- Nếu bạn cần tính các giá trị lớn hơn một cách hiệu quả, có thể thêm **memoization** (lưu trữ các kết quả đã tính) hoặc chuyển sang thuật toán lặp.",
+        "actual_text": "Dưới đây là một hàm Python tính số Fibonacci thứ n bằng đệ quy (recursion). Hàm sẽ trả về giá trị Fibonacci cho chỉ số `n` (với `F(0) = 0`, `F(1) = 1`).\n\n```python\ndef fibonacci(n: int) -> int:\n    \"\"\"\n    Tính số Fibonacci thứ n bằng đệ quy.\n\n    Tham số:\n        n (int): Chỉ số của số Fibonacci cần tính (n >= 0).\n\n    Trả về:\n        int: Giá trị Fibonacci tương ứng.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"Chỉ số n phải là số nguyên không âm\")\n    # Các trường hợp cơ sở\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    # Đệ quy: F(n) = F(n-1) + F(n-2)\n    return fibonacci(n - 1) + fibonacci(n - 2)\n\n\n# Ví dụ sử dụng\nif __name__ == \"__main__\":\n    for i in range(10):\n        print(f\"F({i}) = {fibonacci(i)}\")\n```\n\n**Giải thích nhanh:**\n\n1. **Trường hợp cơ sở**: Khi `n` bằng 0 hoặc 1, hàm trả về ngay giá trị tương ứng (0 hoặc 1). Đây là điểm dừng của đệ quy.\n2. **Đệ quy**: Đối với các giá trị `n` lớn hơn 1, hàm gọi lại chính nó với `n-1` và `n-2`, sau đó cộng hai kết quả lại để có `F(n)`.\n3. **Kiểm tra đầu vào**: Nếu `n` âm, hàm ném `ValueError` để thông báo lỗi.\n\n> **Lưu ý:** Đệ quy thuần như trên có độ phức tạp thời gian O(2^n) và sẽ chậm đối với `n` lớn. Đối với các giá trị lớn hơn, bạn có thể cân nhắc dùng **memoization** (lưu trữ kết quả trung gian) hoặc thuật toán lặp để tối ưu hiệu suất.",
         "case_failure_type": "out_of_scope",
         "observed_mismatch": null,
         "failure_type": null,
@@ -1090,38 +1090,19 @@
         ]
       },
       "result": {
-        "passed": true,
-        "routing_correct": true,
-        "args_correct": true,
-        "actual_tool_calls": [
-          {
-            "name": "timeline",
-            "args": {
-              "limit": 3,
-              "screenname": "elonmusk"
-            }
-          }
-        ],
-        "actual_text": null,
+        "passed": false,
+        "failure_type": "provider_error",
         "case_failure_type": "wrong_arg_value",
-        "observed_mismatch": null,
-        "failure_type": null,
-        "failures": []
+        "observed_mismatch": "provider_error",
+        "failures": [
+          "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01k6csfdfvffctx7w37qtv7aj1` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198285, Requested 2686. Please try again in 6m59.472s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        ],
+        "actual_tool_calls": [],
+        "actual_text": null,
+        "routing_correct": false,
+        "args_correct": false
       },
-      "tool_results": [
-        {
-          "tool": "timeline",
-          "args": {
-            "limit": 3,
-            "screenname": "elonmusk"
-          },
-          "result": {
-            "tool": "get_user_tweets",
-            "error": "RuntimeError",
-            "message": "Missing RAPIDAPI_KEY env var"
-          }
-        }
-      ]
+      "tool_results": []
     },
     {
       "id": "M06_switch_tool",
@@ -1160,42 +1141,19 @@
         ]
       },
       "result": {
-        "passed": true,
-        "routing_correct": true,
-        "args_correct": true,
-        "actual_tool_calls": [
-          {
-            "name": "lookup",
-            "args": {
-              "max_results": 5,
-              "query": "OpenAI",
-              "timeframe": "week",
-              "topic": "news"
-            }
-          }
-        ],
-        "actual_text": null,
+        "passed": false,
+        "failure_type": "provider_error",
         "case_failure_type": "wrong_tool",
-        "observed_mismatch": null,
-        "failure_type": null,
-        "failures": []
+        "observed_mismatch": "provider_error",
+        "failures": [
+          "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01k6csfdfvffctx7w37qtv7aj1` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198284, Requested 2564. Please try again in 6m6.336s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        ],
+        "actual_tool_calls": [],
+        "actual_text": null,
+        "routing_correct": false,
+        "args_correct": false
       },
-      "tool_results": [
-        {
-          "tool": "lookup",
-          "args": {
-            "max_results": 5,
-            "query": "OpenAI",
-            "timeframe": "week",
-            "topic": "news"
-          },
-          "result": {
-            "tool": "web_search",
-            "error": "RuntimeError",
-            "message": "Missing TAVILY_API_KEY env var"
-          }
-        }
-      ]
+      "tool_results": []
     }
   ]
 }
